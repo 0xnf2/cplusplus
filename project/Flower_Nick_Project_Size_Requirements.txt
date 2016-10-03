@@ -1,0 +1,235 @@
+Command-line  tally counter
+Keeps track of tallies and/or ratios
+
+Actors:
+1. User : Primary way the program and the data is modified
+2. System : in some edge cases, especially with respect to ratios, the system keeps track of the total, to alleviate burden from the user having to update two fields at once. 
+
+
+Use Case: Create a new Tally
+Exposition: User creates a new tally
+Step by Step description:
+	1. [User] User creates a new tally
+	2. Alternate Flow:
+		a. [User] User may specify a name
+		b. [User] If this name (unique key) exists, then Exception: Cancel tally creation
+	3. Alternate Flow:
+		a. [User] User may specify a description
+	4. Alternate Flow:
+		a. [User] User may specify starting value
+		b. [User] Exception: non-integer values fail, as they cannot be incremented or decremented
+	5. [System] creates new tally, which may now receive other commands
+	
+Example:
+$tc new drinks -d "Drinks Consumed" 5
+>Created new tally, 'drinks - Drinks Consumed' with initial tally of 5
+>Drinks Consumed: 5
+
+
+Use Case: Add to a tally
+Exposition: User increments tally value by a number
+Step by Step description:
+	1. [User] specifies a tally to increment and a number to increment by
+	2. [User] Exception: tally does not exist, cancel operation
+	3. [User] Exception: increment is not a number, cancel operation
+	4. Alternate flow:
+		a. [User] User does not specify an increment
+		b. [System] sets increment to 1
+	5. [System] does increments tally by specified sum
+
+Example:
+$tc drinks add 1
+>Drinks Consumed: 6
+
+
+Use Case: Subtract from a tally
+Exposition: User decrements tally value by a number
+Step by Step description:
+	1. [User] specifies a tally to decrement and a number to decrement by
+	2. [User] Exception: tally does not exist, cancel operation
+	3. [User] Exception: decrement is not a number, cancel operation
+	4. Alternate flow:
+		a. [User] User does not specify an decrement
+		b. [System] sets decrement to 1
+	5. [System] does decrements tally by specified sum
+
+Example:
+$tc drinks sub 2
+>Drinks Consumed: 4
+
+
+Use Case: Set tally value
+Exposition: User sets the value of a tally to an arbitrary number
+Step by Step description:
+	1. [User] specifies a tally to set and a number to set by
+	2. [User] Exception: tally does not exist, cancel operation
+	3. [User] Exception: value is not a number, cancel operation
+	4. [User] Exception: value not specified, cancel operation
+	5. [System] sets tally to specified value
+
+Example:
+$tc drinks set 13
+>Drinks Consumed: 13
+
+Use Case: Query Tally
+Exposition: User queries a tally for its state
+Step by Step description:
+	1. [User] specifies a tally to query
+	2. [User] Exception: Tally does not exist, cancel operation
+	3. [System] Returns tally and its information
+
+Example:
+$tc drinks
+>Drinks Consumed: 13
+
+
+Use Case: Delete a tally
+Exposition: User deletes a tally from the system
+Step by Step description:
+	1. [User] specifies a tally to delete
+	2. [User] Exception: Tally does not exist, cancel operation
+	3. [System] Deletes tally
+
+Example:
+$tc rm drinks
+>Deleted Tally 'drinks - Drinks Consumed'
+
+--- Ratios ---
+
+$tc mbta add 0 20
+>Days MBTA has had no problems:    40
+>Days MBTA broke down: 	           21
+>Ratio: 	                   52%
+
+$tc mbta add 0 5 sub 1 20
+>Days MBTA has had no problems:    45
+>Days MBTA broke down: 	            1
+>Ratio:                           0.2%
+
+
+
+Use Case: Create a new Ratio
+Exposition: User creates a new ratio
+Step by Step description:
+	1. [User] User creates a new ratio
+	2. Alternate Flow:
+		a. [User] User may specify a name
+		b. [User] If this name (unique key) exists, then Exception: Cancel creation
+	3. Alternate Flow:
+		a. [User] User may specify a description
+	4. Alternate Flow:
+		a. [User] User may specify names of either value
+	5. Alternate Flow:
+		a. [User] User may specify starting value
+		b. [User] Exception: non-integer values fail, as they cannot be incremented or decremented
+	6. [System] creates new tally, which may now receive other commands
+
+Example:
+$tc new mbta -d "service ratios" "Days MBTA has had no problems"  20 "Days MBTA broke down" 21
+>Created new ratio 'mbta - service ratios' with initial tallies of 20 : 21
+
+
+Use Case: Add to a ratio's component
+Exposition: User increments ratio component by a number
+Step by Step description:
+	1. [User] specifies a ratio to increment, a component, and a number to increment by
+	2. [User] Exception: ratio does not exist, cancel operation
+	3. [User] Exception: component does not exist, cancel operation
+	4. [User] Exception: increment is not a number, cancel operation
+	5. Alternate flow:
+		a. [User] User does not specify an increment
+		b. [System] sets increment to 1
+	6. [System] increments tally by specified sum
+
+Example:
+$tc mbta add 0 20
+>Days MBTA has had no problems:    40
+>Days MBTA broke down: 	           21
+>Ratio: 	                   52%
+
+
+Use Case: Subtract from a ratio's component
+Exposition: User decrements ratio's component by a number
+Step by Step description:
+	1. [User] specifies a ratio to increment, a component, and a number to decrement by
+	2. [User] Exception: ratio does not exist, cancel operation
+	3. [User] Exception: component does not exist, cancel operation
+	4. [User] Exception: decrement is not a number, cancel operation
+	5. Alternate flow:
+		a. [User] User does not specify an increment
+		b. [System] sets decrement to 1
+	6. [System] decrements tally by specified sum
+
+Example:
+$tc mbta sub 1 20
+>Days MBTA has had no problems:    40
+>Days MBTA broke down: 	            1
+>Ratio: 			  0.2%
+
+
+Use Case: Set Ratio value
+Exposition: User sets the value of either or both ratio components
+Step by Step description:
+	1. [User] specifies a ratio component, denoted by its index, to set and a number to set by
+	2. Alternate Flow:
+		a. [User] User specifies both of the components to set
+	3. [User] Exception: ratio does not exist, cancel operation
+	4. [User] Exception: value is not a number, cancel operation
+	5. [User] Exception: value not specified, cancel operation
+	6. [User] Either component does not exist, cancel operation
+	7. [System] sets ratio components to specified value
+
+
+Example:
+$tc mbta set 0 35
+>Days MBTA has had no problems:    35
+>Days MBTA broke down: 	            1
+>Ratio: 			  0.3%
+
+
+Use Case: Query Ratio
+Exposition: User queries a ratio for its state
+Step by Step description:
+	1. [User] specifies a ratio to query
+	2. [User] Exception: ratio does not exist, cancel operation
+	3. [System] Returns ratio and its information
+
+Example
+$tc mbta
+>Days MBTA has had no problems:    35
+>Days MBTA broke down: 	            1
+>Ratio:                           0.2%
+
+
+Use Case: Delete a Ratio
+Exposition: User deletes a ratio from the system
+Step by Step description:
+	1. [User] specifies a ratio to delete
+	2. [User] Exception: ratio does not exist, cancel operation
+	3. [System] Deletes ratio
+
+Example:
+$tc rm mbta
+>Deleted ratio "mbta"
+
+Use Case: Query Tally Counter Stats
+Exposition: User gets a list of all existing tallies
+Step by Step description:
+	1. [User] specifies requests the list of tallies
+	2. [System] Returns relevant information
+
+Example:
+$tc
+>Tallies:
+>      drinks: 13
+>
+>Ratios:
+>      mbta:
+>      Days MBTA has had no problems:    35
+>      Days MBTA broke down: 	          1
+>      Ratio: 			        0.2%
+
+
+
+
+
