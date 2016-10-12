@@ -22,7 +22,7 @@ namespace positivelist{
             * method does not change the doubles stored in this object
             * and returns 0.0
             *
-            * Otherwise, the double is stored in the object and the 
+            * Otherwise, the double is stored in the object and the method
             * returns the double that was added
             * @param x the double to add.
             * @return 0.0 for non-valid or duplicate doubles, otherise the added input
