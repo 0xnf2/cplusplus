@@ -44,7 +44,19 @@ int main(){
     berzebet.addEmail("ecsed@nobility.org");
 
     alasgrimaldi.addEmail("grimaldi@example.org");
-    alasgrimaldi.addEmail("massy@nobility.org");    
+    alasgrimaldi.addEmail("massy@nobility.org"); 
+
+    //Subscribing emails to mailing lists
+    dracula.subscribe("erzebet@example.org");
+    dracula.subscribe("cork@nobility.org");
+
+    irish.subscribe("boyle@example.org");
+    irish.subscribe("lambart@example.org");
+    irish.subscribe("digby@example.org");
+    irish.subscribe("guinness@example.org");
+
+    hungarian.subscribe("ecsed@nobility.org");
+
 
     return 0; //No error return code
 
