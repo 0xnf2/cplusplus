@@ -12,6 +12,9 @@ using std::vector;
 * @author Nick Flower
 */
 
+Person::Person(std::string name){
+    name_ = name;
+}
 
 std::string name_;
 
