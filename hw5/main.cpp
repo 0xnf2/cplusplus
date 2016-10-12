@@ -1,15 +1,19 @@
 #include <iostream>
-#include <stdexcept>
 #include "MailingList.h"
 #include "Person.h"
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
+using std::vector;
 using namespace asst05;
 
+
+//TODO
+//4. Documentation on methods and fields
+
 /**
-* Main program for the Mailing Lists and Person classes
+* Main program for the Asst05 Mailing Lists and Person classes
 * @return exit status. Normal is 0.
 */
 int main(){
@@ -28,8 +32,8 @@ int main(){
     Person alasgrimaldi = Person("Antoinette Louise Alberte Suzanne Grimaldi", "555-1005");
 
     //Adding email addresses
-    jboyle.addEmail("boyle@example.org");
     jboyle.addEmail("cork@nobility.org");
+    jboyle.addEmail("boyle@example.org");
 
     rlambart.addEmail("lambart@example.org");
     rlambart.addEmail("cavan@nobility.org");
@@ -57,7 +61,39 @@ int main(){
 
     hungarian.subscribe("ecsed@nobility.org");
 
+    //Lists for our main testing
+    vector<Person> people = {jboyle, rlambart, edigby, gguinness, berzebet, alasgrimaldi};
+    vector<MailingList> lists = {dracula, irish, hungarian};
+    //Assembling HTML tables
+    //Making the header
+    string htmlstring = "<table border='1'>\n    <tr><th>Person</th><th>Phone Number</th>";
+    for(int i = 0; i < lists.size(); i++){
+        string headerstring = "<th>" + lists[i].getName() + "</th>";
+        htmlstring += headerstring;
+    }
+    htmlstring+="</tr>";
+    //Making the rows
+    for(int i = 0; i < people.size(); i++){
+        Person p = people[i];
+        string subscriptionString = "";
+        //Nested loop to check for which mailing lists a person may be subscribed to under different aliases
+        for(int k = 0; k < lists.size(); k++){
+            subscriptionString += "<td>";
+            if(!lists[k].getSubscriptionAddresses(p).empty()){
+                subscriptionString += "yes";
+            }else{
+                subscriptionString += "no";
+            }
+            subscriptionString += "</td>";
+        }
+        htmlstring += "\n    <tr><td>" + p.getName() + "</td><td>" + p.getPhoneNumber() + "</td>"+ subscriptionString + "</tr>";
+    }
+    //Final concatenation
+    htmlstring += "\n</table>";
 
+    //Printing it out
+    cout << htmlstring << endl;
+ 
     return 0; //No error return code
 
 }

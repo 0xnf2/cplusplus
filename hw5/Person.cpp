@@ -1,6 +1,5 @@
-#include <stdexcept>
+#include <algorithm>
 #include "Person.h"
-using namespace std;
 using namespace asst05;
 using std::string;
 using std::vector;
@@ -13,33 +12,35 @@ using std::vector;
 */
 
 /* Constructor */
-Person::Person(std::string name, std::string phone){
+Person::Person(string name, string phone) noexcept{
     name_ = name;
     phoneNumber_ = phone;
-    emailaddrs_ = std::vector<std::string>();
+    emailaddrs_ = vector<string>();
 }
 
 /* private fields */
-std::string name_;
+string name_;
+string phoneNumber_;
+vector<string> emailaddrs_;
 
-std::string phoneNumber_;
-
-std::vector<std::string> emailaddrs_;
-
-/*Getters*/
-std::string Person::getName(){
+/*Functions*/
+string Person::getName() const noexcept{
     return name_;
 }
 
-std::string Person::getPhoneNumber(){
+string Person::getPhoneNumber() const noexcept{
     return phoneNumber_;
 }
 
-std::vector<std::string> Person::getEmailAddresses(){
-    //TODO Sort this vector using alg library
+vector<string> Person::getEmailAddresses() noexcept{
+    //If the list isn't sorted yet, sort it now.
+    //Prof said 'use a flag', but we can just check is_sorted instead.
+    if(!is_sorted(begin(emailaddrs_), end(emailaddrs_))){
+        sort(emailaddrs_.begin(), emailaddrs_.end());        
+    }
     return emailaddrs_;
 }
 
-void Person::addEmail(std::string email){
+void Person::addEmail(string email) noexcept{
     emailaddrs_.push_back(email);
 }
