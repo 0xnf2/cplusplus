@@ -9,7 +9,7 @@ namespace asst05{
     */
     class Person{
         public:
-            Person(std::string name);
+            Person(std::string name, std::string phone);
 
             std::string getName();
 
@@ -21,7 +21,7 @@ namespace asst05{
 
         private:
             std::string name_;
-            std::string phoneNumber;
+            std::string phoneNumber_;
             std::vector<std::string> emailaddrs_;
             
     };
