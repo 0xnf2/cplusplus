@@ -10,6 +10,11 @@ namespace asst05{
     */
     class MailingList{
         public:
+
+            /** Constructor
+            *   Takes the name of mailing list
+            */
+            MailingList(std::string name);
             /** 
             * getName
             * The getter for the mailing list name
@@ -33,9 +38,9 @@ namespace asst05{
 
         private:
             /** The name of the mailing list */
-            std::string name_;
+            std::string listName_;
             /** List of subscribers to this mailing list */
-            std::vector<std::string> emailaddrs_;        
+            std::vector<std::string> subscribers_;        
     };
 }
 #endif

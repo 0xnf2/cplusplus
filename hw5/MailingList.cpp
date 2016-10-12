@@ -14,15 +14,27 @@ using std::vector;
 * @author Nick Flower
 */
 
-std::string MailingList::getName(){
-    return "";
+MailingList::MailingList(std::string name){
+    listName_ = name;
+    subscribers_ = std::vector<std::string>();
 }
 
-void MailingList::subscribe(std::string email){
+/* Fields */
+std::string listName_;
 
+std::vector<std::string> subscribers_;
+
+/* Getters */
+std::string MailingList::getName(){
+    return listName_;
+}
+
+/* Adders */
+void MailingList::subscribe(std::string email){
+    subscribers_.push_back(email);
 }
 
 std::vector<std::string> MailingList::getSubscriptionAddresses(Person p){
-    return std::vector<std::string>();
+    return std::vector<std::string>(); //TODO this is NYI - use Algorithm library to match this.emais with p.emails
 }
    

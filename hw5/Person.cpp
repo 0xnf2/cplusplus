@@ -12,29 +12,34 @@ using std::vector;
 * @author Nick Flower
 */
 
+/* Constructor */
 Person::Person(std::string name, std::string phone){
     name_ = name;
     phoneNumber_ = phone;
+    emailaddrs_ = std::vector<std::string>();
 }
 
+/* private fields */
 std::string name_;
 
 std::string phoneNumber_;
 
 std::vector<std::string> emailaddrs_;
 
+/*Getters*/
 std::string Person::getName(){
-    return "";
+    return name_;
 }
 
 std::string Person::getPhoneNumber(){
-    return "";
+    return phoneNumber_;
 }
 
 std::vector<std::string> Person::getEmailAddresses(){
-
+    //TODO Sort this vector using alg library
+    return emailaddrs_;
 }
 
 void Person::addEmail(std::string email){
-
+    emailaddrs_.push_back(email);
 }
